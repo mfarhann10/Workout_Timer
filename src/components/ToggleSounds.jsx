@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 /* eslint-disable react/prop-types */
 function ToggleSounds({ allowSound, setAllowSound }) {
   return (
@@ -12,4 +14,4 @@ function ToggleSounds({ allowSound, setAllowSound }) {
   );
 }
 
-export default ToggleSounds;
+export default memo(ToggleSounds);
