@@ -2,7 +2,9 @@
 function ToggleSounds({ allowSound, setAllowSound }) {
   return (
     <button
-      className="btn-sound"
+      className={`absolute top-8 right-8 text-3xl ${
+        allowSound ? "text-blue-500" : "text-gray-400"
+      }`}
       onClick={() => setAllowSound((allow) => !allow)}
     >
       {allowSound ? "🔈" : "🔇"}
