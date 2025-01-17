@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import clickSound from "../ClickSound.m4a";
 
 function Calculator({ workouts, allowSound }) {
@@ -7,8 +7,15 @@ function Calculator({ workouts, allowSound }) {
   const [sets, setSets] = useState(3);
   const [speed, setSpeed] = useState(90);
   const [durationBreak, setDurationBreak] = useState(5);
+  const [duration, setDuration] = useState(0);
 
-  const duration = (number * sets * speed) / 60 + (sets - 1) * durationBreak;
+  //const duration = (number * sets * speed) / 60 + (sets - 1) * durationBreak;
+  useEffect(
+    function () {
+      setDuration((number * sets * speed) / 60 + (sets - 1) * durationBreak);
+    },
+    [number, sets, speed, durationBreak]
+  );
   const mins = Math.floor(duration);
   const seconds = (duration - mins) * 60;
 
@@ -18,6 +25,13 @@ function Calculator({ workouts, allowSound }) {
     sound.play();
   };
 
+  function handleInc() {
+    setDuration((duration) => Math.floor(duration) + 1);
+  }
+
+  function handleDec() {
+    setDuration((duration) => (duration > 1 ? Math.ceil(duration) - 1 : 0));
+  }
   return (
     <>
       <form className="flex flex-col gap-6 mb-8">
@@ -76,7 +90,7 @@ function Calculator({ workouts, allowSound }) {
       <section className="flex items-center justify-center gap-6 bg-gray-100 rounded-lg p-6">
         <button
           className="h-12 w-12 flex items-center justify-center rounded-full bg-blue-400 text-white font-bold text-xl hover:bg-blue-500"
-          onClick={() => {}}
+          onClick={handleDec}
         >
           –
         </button>
@@ -87,7 +101,7 @@ function Calculator({ workouts, allowSound }) {
         </p>
         <button
           className="h-12 w-12 flex items-center justify-center rounded-full bg-blue-400 text-white font-bold text-xl hover:bg-blue-500"
-          onClick={() => {}}
+          onClick={handleInc}
         >
           +
         </button>
